@@ -18,13 +18,13 @@ def swap(array, index1, index2):
 def keyScheduling(key):
     """
     Es la implementación del Key Scheduling algorithm para iniciar la permutación
-    del arreglo S. Básicamente es crear el arreglo S para ser utilizada más adelante
-    por el Pseudo-random generation algorithm.
+    de la secuencia S. Básicamente es crear la secuencia S para ser utilizada 
+    más adelante por el Pseudo-random generation algorithm.
 
     Args:
         key: llave de cifrado
     Returns:
-        Arreglo S
+        Secuencia S
     """
     sequence = [i for i in range(256)]
     j = 0
@@ -33,34 +33,34 @@ def keyScheduling(key):
         swap(sequence, i, j)
     return sequence
 
-def pseudoRandomGenerationAlgorithm(sequence, textLenght):
+def pseudoRandomGenerationAlgorithm(sequence, numberOfBytes):
     """
     Función que obtiene los bytes del "Keystream" para posteriormente
-    ser utilizado para el cifrado.
+    ser utilizado para el cifrado o descifrado.
 
     Args:
         sequence: Secuencia S generada por el key-scheduling algorithm.
-        textLenght: tamaño del texto a cifrar
+        numberOfBytes: número de bytes del texto a cifrar o descifrar.
     Returns:
         Arreglo con los bytes del "Keystream", cada elemento del arreglo
         está en base decimal y equivale a un byte del keystream.
     """
     i = 0
     j = 0
-    bits = []
-    for k in range(textLenght):
+    keystream = []
+    for k in range(numberOfBytes):
         i = (i + 1) % 256
         j = (j + sequence[i]) % 256
         swap(sequence, i, j)
         K = sequence[(sequence[i] + sequence[j]) % 256]
-        bits.append(K)
-    return bits
+        keystream.append(K)
+    return keystream
 
 def createEncryptedText(keystream, text):
     """
     Función para imprimir el mensaje encriptado en hexadecimal haciendo uso del Keystream.
     Aquí simplemente aplicamos a un byte del keystream junto a un byte
-    del texto la función XOR,esto hasta no tener mas bytes y
+    del texto en claro la función XOR,este proceso se hace hasta no tener mas bytes y
     obtenemos los bytes del mensaje cifrado.
 
     Args:
@@ -75,19 +75,21 @@ def createEncryptedText(keystream, text):
         kValue = keystream[index]
         #realizar la operación XOR
         encryptedCharacter = characterValue ^ kValue
-        #imprimir el valor hexadecimal con dos números(lo que equivale a un byte)
-        #:02X sirve para imprimir el valor en hexadecimal, con
-        #dos números y que si por ejemplo el valor del resultado de la XOR
-        #fue "A" ponerle un cero adelante es decir que imprima "0A"
+        #imprimir el valor hexadecimal siempre con dos digítos(lo que equivale a un byte)
+        #:02X sirve para imprimir el valor en hexadecimal y con
+        #dos digítos, por ejemplo si el valor del resultado de la XOR
+        #fue "A"  se pone un cero adelante es decir que imprima "0A"
+        #para que forme los dos digítos hexadecimales
         print("{:02X}".format(encryptedCharacter), end = '')
     print()
 
-def createDesencyptedText(keystream, text):
+def createDesencyptedText(keystream, encryptedText):
     """
-    Función para imprimir el mensaje descifrado en hexadecimal
+    Función para imprimir el mensaje descifrado en ASCII
     haciendo uso del Keystream. Aquí simplemente aplicamos a un byte del
-    keystream junto a un byte del texto la función XOR,esto hasta no tener mas bytes y
-    obtenemos los bytes del mensaje descifrado.
+    keystream junto a un byte del texto cifrado la función XOR, 
+    este proceso se hace hasta no tener mas bytes y obtenemos los bytes 
+    del mensaje descifrado.
 
     Args:
         keystream: Arreglo con los bytes del keystream
@@ -119,7 +121,7 @@ def encryptRC4(key, text):
 
 def desencryptRC4(key, text):
     """
-    Función para realizar el encriptado de un texto en claro con el algoritmo RC4.
+    Función para realizar el desencriptado de un texto cifrado con el algoritmo RC4.
     Esta función basicamente es la unión de las funciones keyScheduling,
     pseudoRandomGenerationAlgorithm y createDesencyptedText.
 
@@ -131,6 +133,7 @@ def desencryptRC4(key, text):
     #cada elemento del arreglo es un byte
     hexCharacters = ['0x' + (text[index: index+2]) for index in range(0, len(text), 2)]
     #obtener los bytes del mensaje cifrado en decimal
+    # cada elemento del arreglo es un byte
     decimalCharacters = [int(hexCharacter, 16) for hexCharacter in hexCharacters]
     sequence = keyScheduling(key)
     keystream = pseudoRandomGenerationAlgorithm(sequence, len(decimalCharacters))
