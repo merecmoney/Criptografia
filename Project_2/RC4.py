@@ -43,7 +43,7 @@ def pseudoRandomGenerationAlgorithm(sequence, textLenght):
         textLenght: tamaño del texto a cifrar
     Returns:
         Arreglo con los bytes del "Keystream", cada elemento del arreglo
-        está en base decimal y equivale a 2 bytes.
+        está en base decimal y equivale a un byte del keystream.
     """
     i = 0
     j = 0
@@ -65,38 +65,37 @@ def createEncryptedText(keystream, text):
 
     Args:
         keystream: Arreglo con los bytes del keystream
-        text: el mensaje claro
+        text: el texto en claro
     """
 
-    #tomamos el texto y el keystream de dos en dos bytes
     for index in range(len(text)):
         #obtener el valor del texto en decimal
         characterValue = ord(text[index])
-        #obtener 2 bytes del keystream
+        #obtener 1 byte del keystream
         kValue = keystream[index]
         #realizar la operación XOR
         encryptedCharacter = characterValue ^ kValue
-        #imprimir el valor hexadecimal con dos carácteres
+        #imprimir el valor hexadecimal con dos números(lo que equivale a un byte)
         #:02X sirve para imprimir el valor en hexadecimal, con
-        #dos carácteres y que si por ejemplo el valor del resultado de la XOR
+        #dos números y que si por ejemplo el valor del resultado de la XOR
         #fue "A" ponerle un cero adelante es decir que imprima "0A"
         print("{:02X}".format(encryptedCharacter), end = '')
     print()
 
 def createDesencyptedText(keystream, text):
     """
-    Función para imprimir el mensaje desencriptado en hexadecimal
+    Función para imprimir el mensaje descifrado en hexadecimal
     haciendo uso del Keystream. Aquí simplemente aplicamos a un byte del
     keystream junto a un byte del texto la función XOR,esto hasta no tener mas bytes y
     obtenemos los bytes del mensaje descifrado.
 
     Args:
         keystream: Arreglo con los bytes del keystream
-        text: el mensaje cifrado
+        encryptedText: el mensaje cifrado
     """
-    for index in range(len(text)):
-        characterValue = text[index]
-        #obtener 2 bytes del keystream
+    for index in range(len(encryptedText)):
+        characterValue = encryptedText[index]
+        #obtener 1 byte del keystream
         kValue = keystream[index]
         #realizar la operación XOR
         desencryptedCharacter = characterValue ^ kValue
@@ -106,13 +105,13 @@ def createDesencyptedText(keystream, text):
 
 def encryptRC4(key, text):
     """
-    Función para realizar el encriptado de un mensaje claro con el algoritmo RC4.
+    Función para realizar el encriptado de un texto en claro con el algoritmo RC4.
     Esta función basicamente es la unión de las funciones keyScheduling,
     pseudoRandomGenerationAlgorithm y createEncryptedText.
 
     Args:
         key: llave de cifrado
-        text: mensaje claro
+        text: texto en claro
     """
     sequence = keyScheduling(key)
     keystream = pseudoRandomGenerationAlgorithm(sequence, len(text))
@@ -120,7 +119,7 @@ def encryptRC4(key, text):
 
 def desencryptRC4(key, text):
     """
-    Función para realizar el encriptado de un mensaje claro con el algoritmo RC4.
+    Función para realizar el encriptado de un texto en claro con el algoritmo RC4.
     Esta función basicamente es la unión de las funciones keyScheduling,
     pseudoRandomGenerationAlgorithm y createDesencyptedText.
 
@@ -129,6 +128,7 @@ def desencryptRC4(key, text):
         text: mensaje cifrado
     """
     #obtener los bytes del mensaje cifrado en hexadecimal
+    #cada elemento del arreglo es un byte
     hexCharacters = ['0x' + (text[index: index+2]) for index in range(0, len(text), 2)]
     #obtener los bytes del mensaje cifrado en decimal
     decimalCharacters = [int(hexCharacter, 16) for hexCharacter in hexCharacters]
@@ -148,10 +148,3 @@ def main():
         encryptRC4(key, text)
 
 main()
-
-# encryptRC4("Key", "Plaintext")
-# encryptRC4("Wiki", "pedia")
-# encryptRC4("Secret", "Attack at dawn")
-# desencryptRC4("Key", "BBF316E8D940AF0AD3")
-# desencryptRC4("Wiki", "1021BF0420")
-# desencryptRC4("Secret", "45A01F645FC35B383552544B9BF5")
