@@ -18,7 +18,7 @@ def swap(array, index1, index2):
 def keyScheduling(key):
     """
     Es la implementación del Key Scheduling algorithm para iniciar la permutación
-    de la secuencia S. Básicamente es crear la secuencia S para ser utilizada 
+    de la secuencia S. Básicamente es crear la secuencia S para ser utilizada
     más adelante por el Pseudo-random generation algorithm.
 
     Args:
@@ -87,8 +87,8 @@ def createDesencyptedText(keystream, encryptedText):
     """
     Función para imprimir el mensaje descifrado en ASCII
     haciendo uso del Keystream. Aquí simplemente aplicamos a un byte del
-    keystream junto a un byte del texto cifrado la función XOR, 
-    este proceso se hace hasta no tener mas bytes y obtenemos los bytes 
+    keystream junto a un byte del texto cifrado la función XOR,
+    este proceso se hace hasta no tener mas bytes y obtenemos los bytes
     del mensaje descifrado.
 
     Args:
