@@ -1,25 +1,5 @@
 import fileinput
 
-# define numbers to used inside sbox
-numberZero = [0, 0]
-numberOne = [0, 1]
-numberTwo = [1, 0]
-numberThree = [1, 1]
-
-Sbox0 = [
-    [numberOne, numberZero, numberThree, numberTwo],
-    [numberThree, numberTwo, numberOne, numberZero],
-    [numberZero, numberTwo, numberOne, numberThree],
-    [numberThree, numberOne, numberThree, numberTwo]
-]
-
-Sbox1 = [
-    [numberZero, numberOne, numberTwo, numberThree],
-    [numberTwo, numberZero, numberOne, numberThree],
-    [numberThree, numberZero, numberOne, numberZero],
-    [numberTwo, numberOne, numberZero, numberThree]
-]
-
 def initialPermutation(plainText):
     """
     Function to make initial permutation given a plainText.
@@ -136,6 +116,27 @@ def applySboxes(halves):
     Returns:
         List with 4 bits
     """
+
+    # define numbers to used inside sbox
+    numberZero = [0, 0]
+    numberOne = [0, 1]
+    numberTwo = [1, 0]
+    numberThree = [1, 1]
+
+    Sbox0 = [
+        [numberOne, numberZero, numberThree, numberTwo],
+        [numberThree, numberTwo, numberOne, numberZero],
+        [numberZero, numberTwo, numberOne, numberThree],
+        [numberThree, numberOne, numberThree, numberTwo]
+    ]
+
+    Sbox1 = [
+        [numberZero, numberOne, numberTwo, numberThree],
+        [numberTwo, numberZero, numberOne, numberThree],
+        [numberThree, numberZero, numberOne, numberZero],
+        [numberTwo, numberOne, numberZero, numberThree]
+    ]
+
     leftHalf = halves[0]
     rightHalf = halves[1]
     # row and column for SBox 0
@@ -144,7 +145,7 @@ def applySboxes(halves):
     # row and column for SBox 1
     rowSbox1 = int(str(rightHalf[0]) + str(rightHalf[3]), 2)
     columnSbox1 = int(str(rightHalf[1]) + str(rightHalf[2]), 2)
-    # concatenate two list with 2 bits and returns list with 4 bits
+    # concatenate two lists with 2 bits and returns list with 4 bits
     return Sbox0[rowSbox0][columnSbox0] + Sbox1[rowSbox1][columnSbox1]
 
 def mixingFunction(rightHalf, subKey):
