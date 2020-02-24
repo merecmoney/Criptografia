@@ -201,7 +201,7 @@ def feistelOperation(text, subKey):
     leftHalf = halves[0]
     newLeftHalf = []
     rightHalf = halves[1]
-    newRightHalf = mixingFunction(halves[1], subKey)
+    newRightHalf = mixingFunction(rightHalf, subKey)
     # XOR between left Half and right half after applying the function
     for index in range(4):
         # XOR bit by bit
