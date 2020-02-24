@@ -208,9 +208,9 @@ def feistelOperation(text, subKey):
         newLeftHalf.append(leftHalf[index] ^ newRightHalf[index])
     return newLeftHalf + rightHalf
 
-def simplifiedDES(plainText, subkey1, subkey2):
+def simplifiedDES(text, subkey1, subkey2):
     """
-    Function to apply simplified DES to a plain text given 2 subkeys
+    Function to apply simplified DES to a text given 2 subkeys
     simplifies DES basically consists of 5 Steps:
         - Initial permutation
         - Feistel operation using subkey K1
@@ -219,7 +219,7 @@ def simplifiedDES(plainText, subkey1, subkey2):
         - Inverse permutation
 
     Args:
-        plainText: 8 bit String
+        text: 8 bit String
         subkey1 : list with 4 bits
         subkey2 : list with 4 bits
 
@@ -227,7 +227,7 @@ def simplifiedDES(plainText, subkey1, subkey2):
         List with 8 bits
     """
     # create initial permutation for Text
-    initialText = initialPermutation(plainText)
+    initialText = initialPermutation(text)
     feistelStep = feistelOperation(initialText, subkey1)
     halves = getHalves(feistelStep)
     swapedHalves = halves[1] + halves[0]
@@ -249,12 +249,12 @@ def encryptSimplifiedDES(plainText, key):
     keys = createKeys(key)
     return simplifiedDES(plainText, keys[0], keys[1])
 
-def desencryptSimplifiedDES(plainText, key):
+def desencryptSimplifiedDES(text, key):
     """
-    Function to encrypt a plain Text with a given Key
+    Function to desencrypt a Text with a given Key
 
     Args:
-        plainText: 8 bit String
+        text: 8 bit String
         key : 10 bit String
 
     Returns:
@@ -263,7 +263,7 @@ def desencryptSimplifiedDES(plainText, key):
     # get Keys(Key 1 and Key 2)
     keys = createKeys(key)
     # keys in reverse order
-    return simplifiedDES(plainText, keys[1], keys[0])
+    return simplifiedDES(text, keys[1], keys[0])
 
 def main():
     lines = []
