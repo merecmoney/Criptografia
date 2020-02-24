@@ -1,24 +1,24 @@
 import fileinput
 
-def initialPermutation(plainText):
+def initialPermutation(text):
     """
-    Function to make initial permutation given a plainText.
-    Permute bits of PlainText with the following order:
+    Function to make initial permutation given a text.
+    Permute bits of text with the following order:
         b1 b5 b2 b0 b3 b7 b4 b6
 
     Args:
-        plainText: 8 bit String
+        text: 8 bit String
 
     Returns:
         List with permuted Bits
     """
     permutation = [1, 5, 2, 0, 3, 7, 4, 6]
-    permutedPlainText = []
+    permutedText = []
     for index in range(8):
-        bit = int(plainText[permutation[index]])
-        permutedPlainText.append(bit)
+        bit = int(text[permutation[index]])
+        permutedText.append(bit)
 
-    return permutedPlainText
+    return permutedText
 
 def inversePermutation(bits):
     """
