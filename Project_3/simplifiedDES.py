@@ -1,3 +1,5 @@
+import fileinput
+
 # define numbers to used inside sbox
 numberZero = [0, 0]
 numberOne = [0, 1]
@@ -262,12 +264,22 @@ def desencryptSimplifiedDES(plainText, key):
     # keys in reverse order
     return simplifiedDES(plainText, keys[1], keys[0])
 
-print(encryptSimplifiedDES("01010101", "0000011111"))
-print(encryptSimplifiedDES("10100101", "0010010111"))
-print(encryptSimplifiedDES("00000000", "0000000000"))
-print(encryptSimplifiedDES("11111111", "1111111111"))
+def main():
+    lines = []
 
-print(desencryptSimplifiedDES("11000100", "0000011111"))
-print(desencryptSimplifiedDES("00110110", "0010010111"))
-print(desencryptSimplifiedDES("11110000", "0000000000"))
-print(desencryptSimplifiedDES("00001111", "1111111111"))
+    for line in fileinput.input():
+        lines.append(line)
+
+    for index in range(0, len(lines), 3):
+        encryptOrDecrypt = (lines[index]).replace("\n", "")
+        key = (lines[index + 1]).replace("\n", "")
+        text = (lines[index + 2]).replace("\n", "")
+        if encryptOrDecrypt == "E":
+            output = encryptSimplifiedDES(text, key)
+        else:
+            output = desencryptSimplifiedDES(text, key)
+        for bit in output:
+            print(bit, end = "")
+        print()
+
+main()
