@@ -35,7 +35,7 @@ def inversePermutation(bits):
     permutation = [3, 0, 2, 4, 6, 1, 7, 5]
     inverseBits = []
     for index in range(8):
-        bit = int(bits[permutation[index]])
+        bit = bits[permutation[index]]
         inverseBits.append(bit)
 
     return inverseBits
