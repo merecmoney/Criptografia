@@ -18,6 +18,13 @@ S = [41, 46, 67, 201, 162, 216, 124, 1, 61, 54, 84, 161, 236, 240, 6,
   31, 26, 219, 153, 141, 51, 159, 17, 131, 20]
 
 def padding(messageArray):
+    """
+    Function to add padding to message until it is a multiple of 16 bytes
+    Args:
+        messageArray: list with message byte values
+    Returns:
+        message padded as a list object, every element is a byte in decimal base
+    """
     lengthMessage = len(messageArray)
     byteToAddToMessage = 16 - (lengthMessage % 16)
     for byte in range(byteToAddToMessage):
@@ -25,6 +32,13 @@ def padding(messageArray):
     return messageArray
 
 def checksum(paddedMessage):
+    """
+    Function to add checksum(16 bytes) to padded message
+    Args:
+        paddedMessage: list with padded message byte values
+    Returns:
+        padded message with checksum as a list object, every element is a byte in decimal base
+    """
     lengthPaddedMessage = len(paddedMessage)
     checksum = [0 for i in range(16)]
     L = 0
@@ -37,6 +51,13 @@ def checksum(paddedMessage):
     return paddedMessage + checksum
 
 def createHash(message):
+    """
+    Function to create a hash from message
+    Args:
+        message: list with message byte values
+    Returns:
+        a hash of 16 bytes as a list object, , every element is a byte in decimal base
+    """
     X = [0 for i in range(48)]
     lengthMessage = len(message)
     for i in range(lengthMessage//16):
@@ -52,12 +73,28 @@ def createHash(message):
     return X[:16]
 
 def getHash(message):
+    """
+    Function to get a hash string from message
+    Args:
+        message: list with message byte values
+    Returns:
+        a hash of 16 bytes as a hexadecimal string
+    """
     hashString = []
     for byte in createHash(message):
         hashString.append("{:02X}".format(byte))
     return ''.join(hashString)
 
 def MD2(message):
+    """
+    Function to get MD2(Message Digest 2) from a message
+    Args:
+        message: String
+    Returns:
+        hash string of the message
+    """
+    # array to convert messsage characters to decimal values, every element
+    # is a byte in decimal base
     messageArray = [ord(character) for character in message]
     paddedMessage = padding(messageArray)
     paddedMessage = checksum(paddedMessage)
