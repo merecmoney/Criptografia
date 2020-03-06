@@ -15,3 +15,7 @@
 #### Block Cipher
 
 - Simplified DES : Project_3
+
+### Message Digest Functions
+
+- MD2(Message Digest 2): Project_4
