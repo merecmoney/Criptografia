@@ -1,3 +1,5 @@
+import fileinput
+
 S = [41, 46, 67, 201, 162, 216, 124, 1, 61, 54, 84, 161, 236, 240, 6,
   19, 98, 167, 5, 243, 192, 199, 115, 140, 152, 147, 43, 217, 188,
   76, 130, 202, 30, 155, 87, 60, 253, 212, 224, 22, 103, 66, 111, 24,
@@ -82,7 +84,7 @@ def getHash(message):
     """
     hashString = []
     for byte in createHash(message):
-        hashString.append("{:02X}".format(byte))
+        hashString.append("{:02x}".format(byte))
     return ''.join(hashString)
 
 def MD2(message):
@@ -100,10 +102,16 @@ def MD2(message):
     paddedMessage = checksum(paddedMessage)
     return getHash(paddedMessage)
 
-print(MD2(""))
-print(MD2("a"))
-print(MD2("abc"))
-print(MD2("message digest"))
-print(MD2("abcdefghijklmnopqrstuvwxyz"))
-print(MD2("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"))
-print(MD2("12345678901234567890123456789012345678901234567890123456789012345678901234567890"))
+def main():
+    lines = []
+
+    for line in fileinput.input():
+        lines.append(line.strip("\n"))
+
+    for line in lines:
+        if line == "\"\"":
+            print(MD2(""))
+            continue
+        print(MD2(line))
+
+main()
