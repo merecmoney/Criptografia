@@ -4,6 +4,14 @@ publicKey = None
 privateKey = None
 
 def createKeys(a, b, A, B):
+    """
+    Function to create public and private Key.
+    Args:
+        a: random Integer
+        b: random Integer
+        A: random Integer
+        B: random Integer
+    """
     global publicKey, privateKey
 
     M = a*b - 1
@@ -15,14 +23,29 @@ def createKeys(a, b, A, B):
     privateKey = d
 
 def encrypt(message):
+    """
+    Function to create ciphertext given a message using the public key.
+    Args:
+        message: message to encrypt
+    Returns:
+        ciphertext
+    """
+    # Message Integer must be less than n
     if message < publicKey[0]:
         #ciphertext
         y = (message*publicKey[1]) % publicKey[0]
         print(y)
     return y
 
-def desencrypt(cipherText):
-    plainText = (cipherText*privateKey) % publicKey[0]
+def desencrypt(ciphertext):
+    """
+    Function to get plain text given a ciphertext using the private key.
+    Args:
+        ciphertext: ciphertext to desencrypt
+    Returns:
+        plaintext
+    """
+    plainText = (ciphertext*privateKey) % publicKey[0]
     print(plainText)
     return plainText
 
