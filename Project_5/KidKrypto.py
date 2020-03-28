@@ -7,10 +7,10 @@ def createKeys(a, b, A, B):
     """
     Function to create public and private Key.
     Args:
-        a: random Integer
-        b: random Integer
-        A: random Integer
-        B: random Integer
+        a: random positive Integer
+        b: random positive Integer
+        A: random positive Integer
+        B: random positive Integer
     """
     global publicKey, privateKey
 
@@ -28,14 +28,16 @@ def encrypt(message):
     Args:
         message: message to encrypt
     Returns:
-        ciphertext
+        If message is less than n, ciphertext is returned
+        If not return -1
     """
     # Message Integer must be less than n
     if message < publicKey[0]:
         #ciphertext
         y = (message*publicKey[1]) % publicKey[0]
         print(y)
-    return y
+        return y
+    return -1
 
 def desencrypt(ciphertext):
     """
