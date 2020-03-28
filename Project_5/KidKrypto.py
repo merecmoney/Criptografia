@@ -26,8 +26,17 @@ def desencrypt(cipherText):
     print(plainText)
     return plainText
 
-createKeys(3, 4, 5, 6)
-desencrypt(encrypt(200))
+def main():
+    lines = []
 
-createKeys(47, 22, 11, 5)
-desencrypt(encrypt(4356))
+    for line in fileinput.input():
+        lines.append(line.strip("\n"))
+
+    createKeys(int(lines[1]), int(lines[2]), int(lines[3]), int(lines[4]))
+    #if first line is "E" encrypt, if not desencrypt
+    if lines[0] == "E":
+        encrypt(int(lines[5]))
+    else:
+        desencrypt(int(lines[5]))
+
+main()
